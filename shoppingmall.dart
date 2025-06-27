@@ -65,7 +65,23 @@ class ShoppingMall {
   }
 
   void showTotal() {
-    print('장바구니에 ${totalPrice}원 어치를 담으셨네요!');
+    if (cart.isEmpty) {
+      print('장바구니에 담긴 상품이 없습니다.');
+    } else {
+      List<String> productNames = cart.keys.toList();
+      String joinedNames = productNames.join(',');
+      print('장바구니에 ${joinedNames}이(가) 담겨있네요. 총 ${totalPrice}원 입니다!');
+    }
+  }
+
+  void clearCart() {
+    if (cart.isEmpty) {
+      print('이미 장바구니가 비어있습니다.');
+    } else {
+      cart.clear();
+      totalPrice = 0;
+      print('장바구니를 초기화합니다.');
+    }
   }
 }
 
@@ -108,8 +124,19 @@ void main() {
         break;
 
       case '4':
-        print('이용해 주셔서 감사합니다 ~ 안녕히 가세요!');
-        isRunning = false;
+        stdout.write('정말 종료하시겠습니까? 종료하려면 5를 입력하세요: ');
+        String? confirm = stdin.readLineSync();
+
+        if (confirm == '5') {
+          print('이용해 주셔서 감사합니다~ 안녕히 가세요!');
+          isRunning = false;
+        } else {
+          print('종료하지 않습니다.');
+        }
+        break;
+
+      case '6':
+        mall.clearCart();
         break;
 
       default:
